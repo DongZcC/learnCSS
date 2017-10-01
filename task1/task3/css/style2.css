@@ -1,0 +1,77 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    background-color: #68CDD6;
+    color: #FFF;
+}
+
+#back {
+    padding-top: 1em;
+    padding-left: 1em;;
+}
+h1 {
+    padding-top: 2em;
+    text-align: center;
+}
+p {
+    padding: 5em 3em;
+}
+
+/*#img1 {*/
+    /*padding-left: 3.2em;*/
+/*}*/
+
+/*#img2 {*/
+    /*padding-right: 3.2em;;*/
+/*}*/
+
+#foot span {
+    color: #FFF;
+}
+
+/*.left{*/
+    /*float: left;*/
+/*}*/
+/*.right{*/
+    /*float: right;*/
+/*}*/
+
+/*.btn1 {*/
+    /*display: inline-block;*/
+    /*background: url(http://www.zhangxinxu.com/study/image/sina_gray_btn.png) no-repeat left top;*/
+    /*padding-left: 3px;*/
+    /*color: #000000;*/
+    /*font-size: 12px;*/
+    /*text-decoration: none;*/
+/*}*/
+
+/*.btn1 cite {*/
+    /*display: block;*/
+    /*line-height: 26px;*/
+    /*padding: 0 13px 0 10px;*/
+    /*background: url(http://www.zhangxinxu.com/study/image/sina_gray_btn.png) no-repeat right top;*/
+/*}*/
+
+/*.btn2 {*/
+    /*float: right;*/
+    /*background: url(http://www.zhangxinxu.com/study/image/sina_gray_btn.png) no-repeat left top;*/
+    /*padding-left: 3px;*/
+    /*color: #000000;*/
+    /*font-size: 12px;*/
+    /*text-decoration: none;*/
+/*}*/
+
+/*.btn2 cite {*/
+    /*display: block;*/
+    /*line-height: 26px;*/
+    /*padding: 0 13px 0 10px;*/
+    /*background: url(http://www.zhangxinxu.com/study/image/sina_gray_btn.png) no-repeat right top;*/
+/*}*/
+
+
+.foot{
+    display: flex;
+    justify-content: space-around;
+    flex-direction:row;
+}

@@ -1,0 +1,82 @@
+/* reset */
+html {
+    font-size: 625%;
+}
+body {
+    margin: 0;
+    font-size: 12px;
+    color: #fff;
+    background: #6ccdd5;
+}
+.wrap {
+    position: relative;
+    padding: 1rem 15% 0.25rem 15%;
+    /*min-height: 100vh;*/
+
+}
+.back-btn {
+    position: absolute;
+    left: .1rem;
+    top: .1rem;
+    width: 0.27rem;
+    height: 0.27rem;
+    background-image: url("../image/back.png");
+    -webkit-background-size: 0.27rem;
+    background-size: 0.27rem;
+}
+h2 {
+    margin: 0 0 0.8rem 0;
+    text-align: center;
+}
+h2 img {
+    max-width: 0.9rem;
+}
+p {
+    line-height: 1.6;
+}
+.footer {
+    padding: 1rem 0 0 0;
+    overflow: hidden;
+    *zoom: 1;
+}
+.footer > div {
+    min-width: 0.6rem;
+    text-align: center;
+}
+.pull-left {
+    float: left;
+}
+.pull-right {
+    float: right;
+}
+.footer-icon {
+    display: inline-block;
+    width: 0.43rem;
+    height: 0.43rem;
+    text-align: center;
+}
+.footer-icon.icon_qq {
+    background-image: url("../image/round1.png");
+    -webkit-background-size: 100%;
+    background-size: 100%;
+}
+.footer-icon.icon_logo {
+    background-image: url("../image/round2.png");
+    -webkit-background-size: 100%;
+    background-size: 100%;
+}
+
+
+
+/*@media only screen and (-webkit-min-device-pixel-ratio: 2),*/
+/*only screen and (min-device-pixel-ratio: 2) {*/
+    /*.back-btn {*/
+        /*background-image: url("../image/back.png");*/
+    /*}*/
+    /*.footer-icon.icon_qq {*/
+        /*background-image: url("../image/round1.png");*/
+    /*}*/
+    /*.footer-icon.icon_logo {*/
+        /*background-image: url("../image/round2.png");*/
+    /*}*/
+/*}*/
