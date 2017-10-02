@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+    <title>登录界面</title>
+    <style>
+        * {
+            margin: 0;
+        }
+
+        html {
+            background: #eff0f4;
+            font-size: 62.5%;
+        }
+
+        .header {
+            justify-content: space-between;
+            background: #5fc0cd;
+        }
+
+        .font {
+            font-size: 1.7rem;
+            color: #ffffff;
+        }
+
+        .flex {
+            display: flex;
+            align-items: center;
+        }
+
+        .height {
+            height: 5rem;
+        }
+
+        .left {
+            margin: 0 0 0 1.5rem;
+        }
+
+        .right {
+            margin: 0 1.5rem 0 0;
+        }
+
+        .number {
+            border: 0;
+            font-size: 1.5rem;
+            color: #bababa;
+            outline: none;
+        }
+
+        .img{
+            border-right: 0.12rem solid #bababa;
+            padding: 0 0.9rem 0 0.9rem;
+            margin-right: 0.9rem;;
+        }
+
+        .box{
+            background: #ffffff;
+            margin: 0.9rem 0 0.9rem 0;
+        }
+
+        .submit{
+            background: #5fc0cd;
+            justify-content: space-around;
+            margin:2rem 0 0.5rem 0;
+        }
+
+        .end{
+            flex-direction:row-reverse;
+            margin:0 .5rem 0  0;
+        }
+    </style>
+</head>
+<body>
+<div class="header font flex height">
+    <span class="left">关闭</span>
+    <span></span>
+    <span class="right">注册</span>
+</div>
+
+<div class="flex height box">
+    <span><img class="img" src="./image/phone.png"></span>
+    <input class="number" type="txt" name="fistname" placeholder="请输入手机号"/>
+</div>
+
+<div class="flex height box">
+    <span><img class="img" src="./image/password.png"></span>
+    <input class="number" type="password" name="password" placeholder="请输入密码">
+</div>
+
+<div class="submit height flex font">
+    <span>登录</span>
+</div>
+
+<div style="color: #5fc0cd; " class="end font flex">
+    <span>忘记密码?</span>
+</div>
+</body>
+</html>
