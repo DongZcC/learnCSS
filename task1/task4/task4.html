@@ -25,10 +25,10 @@
             color: #ffffff;
         }
 
-        .flex {
-            display: flex;
-            align-items: center;
-        }
+        /*.flex {*/
+            /*display: flex;*/
+            /*align-items: center;*/
+        /*}*/
 
         .height {
             height: 5rem;
@@ -36,10 +36,22 @@
 
         .left {
             margin: 0 0 0 1.5rem;
+            position: absolute;
+            left: 0.5rem;
+            top: 2rem;
+        }
+
+        .center {
+            position: relative;
+            top: 2rem;
+            left: 45%;
         }
 
         .right {
+            position: absolute;
             margin: 0 1.5rem 0 0;
+            right: 0.5rem;
+            top: 2rem;
         }
 
         .number {
@@ -75,7 +87,7 @@
 <body>
 <div class="header font flex height">
     <span class="left">关闭</span>
-    <span></span>
+    <span class="center">登录</span>
     <span class="right">注册</span>
 </div>
 
