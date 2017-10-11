@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>个人主页</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+    <style>
+        /* reset */
+        html {
+            font-size: 625%;
+        }
+        body, p, ul, li, ol {
+            margin: 0;
+            padding: 0;
+        }
+
+
+        /* layout */
+        header, footer {
+            position: fixed;
+            padding: 0.07rem 0.1rem;
+            line-height: 0.32rem;
+            font-size: 0.14rem;
+        }
+        header {
+            left: 0;
+            right: 0;
+            top: 0;
+            height: 0.32rem;
+        }
+
+        header a {
+            color: #fff;
+            text-decoration: none;
+            font-size: .14rem;
+            cursor: pointer;
+        }
+        header h2 {
+            padding: 0;
+            margin: 0 4em;
+            text-align: center;
+            font-size: .16rem;
+        }
+        footer {
+            display: flex;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 0.45rem;
+            padding: .1rem;
+        }
+
+
+        footer button {
+            width: 50%;
+            font-size: .16rem;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .footer-btn-hollow {
+            margin-right:  .05rem;
+            border-color: #5fc0cd;
+            background: #FFF;
+            color: #5fc0cd;
+            box-shadow: inset 0 0 0 2px #5fc0cd;
+        }
+
+        .footer-btn-solid {
+            margin-left:  .05rem;
+            background: #5fc0cd;
+            color: #FFFFFF;
+        }
+
+        main {
+            position: absolute;
+            top: .46rem;
+            bottom: 0.65rem;
+            left:0;
+            right:0;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        main .content {
+            font-size: .12rem;
+        }
+        
+        
+        .user-section {
+            background: url("./image/background.png") no-repeat center;
+            background-size: cover;
+            height: 1.64rem;
+            width:100%;
+            display: flex;
+            align-items: center;
+            color: #FFFFFF;
+
+        }
+
+        .user-thumb {
+            margin-left: .2rem;
+        }
+
+        .user-info {
+            margin-left: .25rem;
+        }
+
+        .user-name {
+            font-size: 1.2em;
+        }
+
+        .user-pos {
+            margin-top: .05rem;
+            padding-left: 0.2rem;
+            background: url("./image/address.png") no-repeat left center;
+        }
+        
+        
+        .user-form {
+        }
+
+        .user-form-title {
+            height: .5rem;
+            line-height: .5rem;
+            padding: 0 .1rem;
+            border-bottom: 1px solid #bababa;
+        }
+
+        .user-form-title span {
+            padding-left: .05rem;
+            border-left: 3px solid #5fc0cd;
+        }
+
+        .user-form-list {
+            padding: 0 .1rem;
+        }
+
+        .user-form-list li {
+            position: relative;
+            min-height: .2rem;
+            line-height: .2rem;
+            padding: .15rem .1rem;
+            border-bottom: 1px solid #ccc;
+            overflow: auto;
+        }
+
+        .user-form-tag {
+            background:url("./image/star.png") no-repeat left center;
+            padding-left: .15rem;
+            padding-right: .1rem;
+            display: inline-block;
+        }
+
+        .user-form-label {
+            position: absolute;
+            color: #bababa;
+            border-right: 1px solid #bababa;
+            width: .6rem;
+            top:50%;
+            transform: translateY(-50%);
+        }
+
+        .user-form-item {
+            margin-left: .7rem;
+        }
+
+        /*global*/
+        header {
+            background : #5fc0cd;
+            color: #FFFFFF;
+        }
+        
+        .pull-left {
+            float: left;
+        }
+
+        
+        .text-important {
+            color: #d61313;
+        }
+
+    </style>
+</head>
+
+<body>
+<header>
+    <a href="" class="pull-left"><big>&lt;</big></a>
+    <h2>个人主页</h2>
+</header>
+
+
+<main>
+    <div class="content">
+        <div class="user-section">
+            <div class="user-thumb">
+                <img src="./image/avatar.png">
+            </div>
+
+            <div class="user-info">
+                <p class="user-name">徐女士  55岁</p>
+                <p class="user-pos">京城・四方・报纸林</p>
+            </div>
+        </div>
+
+        <div class="user-form">
+            <div class="user-form-title">
+                <span>专业技能</span>
+            </div>
+
+            <ul class="user-form-list">
+                <li>
+                    <div class="user-form-tag">住家</div>
+                    <div class="user-form-tag">不含餐</div>
+                </li>
+
+                <li>
+                    <div class="user-form-label">从业年限</div>
+                    <div class="user-form-item">0~3年</div>
+                </li>
+
+                <li>
+                    <div class="user-form-label">工作时间</div>
+                    <div class="user-form-item">全天</div>
+                </li>
+
+                <li>
+                    <div class="user-form-label">服务价格</div>
+                    <div class="user-form-item text-important">25元/小时</div>
+                </li>
+
+                <li>
+                    <div class="user-form-label">自我介绍</div>
+                    <div class="user-form-item">
+                        可以洗衣做饭照顾老人，可以洗衣做饭照顾老人，可以洗衣做饭照顾老人，可以洗衣做饭照顾老人，可以洗衣做饭照顾老人                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <button class="footer-btn-hollow">留言</button>
+    <button class="footer-btn-solid">电话联系</button>
+</footer>
+
+</body>
+</html>
