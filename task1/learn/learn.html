@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+
+        html {
+            font-size: 62.5%;
+        }
+
+        body {
+            font-size: 1.6rem;
+        }
+
+        div {
+            height: 6em;
+        }
+
+        p.wide {
+
+        }
+    </style>
+    <script type="text/javascript">
+        test = 'test';
+        function square(x) {
+            return x * x;
+        }
+
+        something = 1;
+        {
+            var something = 2;
+//            console.log (something)
+        }
+        //        console.log(something);
+
+        function chicken() {
+            return egg();
+        }
+        function egg() {
+            return chicken();
+        }
+
+        //        print(chicken() + "came first");
+
+        //        闭包
+        function createFunction() {
+            var local = 100;
+            return function () {
+                return local;
+            }
+        }
+
+        var x = createFunction();
+        //        console.log(x);
+
+        function makeAdder(amount) {
+            return function (number) {
+                return amount + number;
+            }
+        }
+
+        var name = "The Window";
+        var object = {
+            name: "My Object",
+            getNameFunc: function () {
+                var that = this;
+                return this.name;
+            }
+        };
+        //        alert(object.getNameFunc());
+
+        function findSequence(goal) {
+            function find(start, history) {
+                if (start == goal)
+                    return history;
+                else if (start > goal)
+                    return null;
+                else
+                    return find(start + 5, "(" + history + " + 5)") || find(start * 3, "(" + history + " * 3)");
+            }
+
+            return find(1, "1");
+        }
+
+
+        function forEach(array, action) {
+            for (var i = 0; i < array.length; i++)
+                action(array[i]);
+        }
+
+
+        function add(a, b) {
+            return a + b;
+        }
+
+        function sum(numbers) {
+            return reduce(add, 0, numbers);
+        }
+
+        function sum2(numbers) {
+            var total = 0;
+            forEach(numbers, function (number) {
+                total += number
+            });
+            return total;
+        }
+
+        function countZeros(numbers) {
+            function counter(total, element) {
+                return total += element === 0 ? 1 : 0;
+            }
+
+            reduce(counter, 0, numbers);
+        }
+
+        function negate(func) {
+            return function (x) {
+                return !func.apply(null, arguments);
+            }
+        }
+
+        var isNotNaN = negate(isNaN);
+
+
+        function map(func, array) {
+            var result = [];
+            forEach(array, function (element) {
+                result.push(func(element));
+            });
+            return result;
+        }
+
+        function reduce(combine, base, array) {
+            forEach(array, function (element) {
+                base = combine(base, element);
+            });
+            return base;
+        }
+
+        /*
+         * 1. 如果段落以 * 开始，则将该强调的部分保存起来
+         * 2. 如果段落以 { 开始，则将脚注部分保存起来
+         * 3. 否则在遇到第一个强调部分或者脚注时，或到字符串结束，分离该部分作为普通文本保存
+         * 4. 如果段落里面还有剩余，重新开始第一步
+         * */
+        function splitParagraph(text) {
+            /**
+             * 这种方式用递归，不用循环，并且用了数组的concat方法， 比较慢速 函数式编程语言
+             * @param pos
+             * @returns {*}
+             */
+//            function split(pos) {
+//                if (pos == text.length) {
+//                    return [];
+//                } else if (text.charAt(pos) == "*") {
+//                    var end = findClosing("*", pos + 1), frag = {type:"emphasized", content: text.slice(pos+1, end)};
+//                    return [frag].concat(split(end + 1));
+//                } else if (text.charAt(pos) == "{") {
+//                    var end = findClosing("}", pos +1), frag = {type:"footnote" , content: text.slice(pos +1, end)};
+//                    return [frag].concat(split(end +1));
+//                } else {
+//                    var end = findOpeningOrEnd(pos), frag = {type:"normal", content: text.slice(pos, end)};
+//                    return [frag].concat(split(end));
+//                }
+//            }
+
+
+            function split() {
+                var pos = 0, fragments = [];
+                while (pos < text.length) {
+                    if (pos == "*") {
+                        var end = findClosing("*", pos + 1);
+                        fragments.push({type: "emphasized", content: text.slice(pos + 1, end)});
+                        pos = end + 1;
+                    } else if (pos == "{") {
+                        var end = findClosing("{", pos + 1);
+                        fragments.push({type: "footnote", content: text.slice(pos + 1, end)});
+                        pos = end + 1;
+                    } else {
+                        var end = findOpeningOrEnd(pos);
+                        fragments.push({type: "normal", content: text.slice(pos, end)});
+                        pos = end;
+                    }
+                }
+                return fragments;
+            }
+
+            function findClosing(character, from) {
+                var end = text.indexOf(character, from);
+                if (end == -1)
+                    throw  new Error("Missing closing'" + character + "'");
+                else
+                    return end;
+            }
+
+            function findOpeningOrEnd(from) {
+                function indexOrEnd(character) {
+                    var index = text.indexOf(character, from);
+                    return index == -1 ? text.length : index;
+                }
+
+                return Math.min(indexOrEnd("*"), indexOrEnd("{"));
+            }
+
+            return text.split(0);
+        }
+
+        function processParagraph(paragraph) {
+            var header = 0;
+            while (paragraph.charAt(header) == "%")
+                header++;
+            if (header > 0) {
+                return {type: "h" + header, content: splitParagraph(paragraph.slice(header + 1))}
+            } else {
+                return {type: "p", content: splitParagraph(paragraph)}
+            }
+        }
+
+        /**
+         * 提取段落脚注，在原本脚注位置增加引用
+         * @param paragraphs
+         */
+        function extractFootnotes(paragraphs) {
+            var footnotes = [];
+            var currentNote = 0;
+
+            function replaceFootnote(fragment) {
+                if (fragment.type == "footnote") {
+                    currentNote++;
+                    footnotes.push(fragment);
+                    fragment.number = currentNote;
+                    return {type: "reference", number: currentNote};
+                } else {
+                    return fragment;
+                }
+            }
+
+            forEach(paragraphs, function () {
+                paragraphs.content = map(replaceFootnote, paragraphs.content);
+            });
+            return footnotes;
+        }
+
+        /**
+         * 替换元素中的html格式
+         * @param text
+         * @returns {*}
+         */
+        function escapeHTML(text) {
+            var replacements = [[/&/g, "&amp;"], [/"/g, "&quot;"], [/</g, "&lt;"], [/>/g, "&gt"]];
+            forEach(replacements, function (replace) {
+                text = text.replace(replace[0], replace[1]);
+            });
+            return text;
+        }
+
+        /**
+         * 将{src:"picture.png","alt":"ThrPicture"} 转换为 src = "picture.png" alt = "The Picture"
+         * @param attributes
+         * @returns {*}
+         */
+        function renderAttributes(attributes) {
+            if (attributes == null) return "";
+            var result = [];
+            for (var name in attributes) {
+                result.push(" " + name + "=\"" + escapeHTML(attributes[name]) + "\"");
+            }
+            return result.join("");
+        }
+
+        function renderHTML(element) {
+            var pieces = [];
+
+            function render(element) {
+                //文本节点
+                if (typeof element == "string") {
+                    pieces.push(escapeHTML(element));
+                }
+                //不带内容的标签
+                else if (!element.content || element.content.length == 0) {
+                    pieces.push("<" + element.name + renderAttributes(element.attributes) + ">");
+                }
+                //带内容的标签
+                else {
+                    pieces.push("<" + element.name + renderAttributes(element.attributes) + ">")
+                    forEach(element.content, render);
+                    pieces.push("</" + element.name + ">")
+                }
+            }
+
+            render(element);
+            return pieces.join("");
+        }
+
+        /**
+         * 生成HTML代码
+         */
+        function tag(name, content, attributes) {
+            return {name: name, attributes: attributes, content: content};
+        }
+
+        function link(target, text) {
+            return tag("a", [text], {href: target});
+        }
+
+        function htmlDoc(title, bodyContent) {
+            return tag("html", [tag("head", [tag("title", [title])]), tag("body", [bodyContent])]);
+        }
+
+        /**
+         * 转化隐士的书
+         */
+        function renderFragment(fragment) {
+            if (fragment.type = "reference") {
+                return tag("sup", [link("#footnote" + number, String(number))]);
+            }
+            else if (fragment.type = "emphasised") {
+                return tag("em", [fragment.content]);
+            } else if (fragment.type = "normal") {
+                return fragment.content;
+            }
+        }
+
+        function renderParagraph(paragraph) {
+            return tag(paragraph.type, map(renderFragment, paragraph.content));
+        }
+
+        function renderFootnote(footnote) {
+            var anchor = tag("a", [], {name: "footnote" + footnote.number})
+            var number = "[" + footnote.number + "]";
+            return tag("a", [tag("small", [anchor, number, footnote.content])]);
+        }
+
+        function renderFile(file, title) {
+            var paragraphs = map(processParagraph, file.split("\n\n"));
+            var footnotes = map(renderFootnote, extractFootnotes(paragraphs));
+            var body = map(renderParagraph, paragraphs).concat(footnotes);
+            return renderHTML(htmlDoc(title, body));
+        }
+
+
+        //=========================  分布应用  ===================================================
+        //将函数的第某几个值固定住，去调用这个函数
+        var op = {
+            "+": function (a, b) {
+                return a + b
+            },
+            "-": function (a, b) {
+                return a - b
+            },
+            "==": function (a, b) {
+                return a == b
+            },
+            "===": function (a, b) {
+                return a === b
+            }
+        }
+
+        function partial(func) {
+            var knowArgs = arguments;
+            return function () {
+                var realArgs = [];
+                for (var i = 1; i < knowArgs.length; i++)
+                    realArgs.push(knowArgs[i]);
+                for (var i = 0; i < arguments.length; i++)
+                    realArgs.push(arguments[i]);
+                return func.apply(null, realArgs);
+            };
+        }
+        //假设有一个数字数组的数组，我们想计算其平方根
+        //[[10],[0,1],[3]]
+        function square(x) {
+            return x * x;
+        }
+
+        //===================== 对象 =======================================
+        //way1
+        function Rabbit(adjective) {
+            this.adjective = adjective;
+            this.speak = function (line) {
+                console.log("The ", this.adjective, " rabbit says '", line, "'");
+            }
+        }
+        //way2
+        function makeRabbit(adjective) {
+            return {
+                adjective: adjective,
+                speak: function (line) {
+                    console.log("The ", this.adjective, " rabbit says '", line, "'");
+                }
+            }
+        }
+
+        //**** dictionary
+        function Dictionary(starValue) {
+            this.values = starValue || {};
+        }
+
+        Dictionary.prototype.store = function (name, value) {
+            this.values[name] = value;
+        }
+
+        Dictionary.prototype.lookup = function (name) {
+            return this.values[name];
+        }
+
+        Dictionary.prototype.contains = function (name) {
+            return Object.prototype.propertyIsEnumerable.call(this.values, name);
+        }
+
+        Dictionary.prototype.each = function (action) {
+            forEach(this.values, action);
+        }
+
+        var notCatsAtall = {};
+
+
+        // ===========================  6.2 构建生态系统模拟  =====================================
+        var thePlan = [
+            "###############################",
+            "#         #     #  o         ##",
+            "#                             #",
+            "#                             #",
+            "#                             #",
+            "#           #####             #",
+            "#                             #",
+            "#                             #",
+            "##                            #",
+            "# ###   ####    ###           #",
+            "#                             #",
+            "#   ##         o              #",
+            "# o  #                        #",
+            "#    #            o           #",
+            "#                             #",
+            "#                             #",
+            "###############################"
+        ];
+        function Point(x, y) {
+            this.x = x;
+            this.y = y;
+        }
+        Point.prototype.add = function (other) {
+            return new Point(this.x + other.x, this.y + other.y);
+        }
+
+        function Grid(width, height) {
+            this.width = width;
+            this.height = height;
+            this.cells = new Array(width * height);
+        }
+
+        Grid.prototype.valueAt = function(point) {
+            return this.cells[point.x + point.y * this.width];
+        }
+        Grid.prototype.setValueAt = function (point, value) {
+            this.cells[point.x + point.y * this.width] = value;
+        }
+        Grid.prototype.isInside = function (point) {
+            return point.x >= 0 && point.y >= 0 && point.x < this.width && point.y < this.height;
+        }
+        Grid.prototype.moveValue = function(from, to) {
+            this.setValueAt(to, this.valueAt(from));
+            this.setValueAt(from, undefined);
+        }
+        Grid.prototype.each = function(action) {
+            for (var y = 0; y < this.height; y++) {
+                for (var x = 0; x < this.width; x++) {
+                    var point = new Point(x,y);
+                    action(point, this.valueAt(point));
+                }
+            }
+        }
+
+        // ===== 昆虫
+        // 走向
+        var directions = new Dictionary(
+                {
+                    "n" : new Point(0,-1),
+                    "en" : new Point(1,-1),
+                    "e" : new Point(1,0),
+                    "es" : new Point(1,1),
+                    "s" : new Point(0,1),
+                    "ws" : new Point(-1,1),
+                    "w" : new Point(-1,0),
+                    "wn" : new Point(-1,-1)
+                });
+        function StupidBug() {};
+        StupidBug.prototype.act = function (surroundings) {
+            return {type:"move" , direction : "s"}
+        };
+        // 生态圈对象
+        var wall = {};
+
+        function elementFromCharacter(character) {
+            if (character == " ")
+                return undefined;
+            else if (character == "#")
+                return wall;
+            else if (character == "o")
+                return new StupidBug();
+        }
+
+        function Terrarium(plan) {
+            var grid = new Grid(plan[0].length, plan.length);
+            for (var y = 0; y < plan.length; y++) {
+                var line = plan[y];
+                for (var x = 0; x < line.length; x++){
+                    grid.setValueAt(new Point(x,y), elementFromCharacter(line.charAt(x)))
+                }
+            }
+            this.grid = grid;
+        };
+        wall.character = "#";
+        StupidBug.prototype.character = "o";
+
+        function characterFromElement(element) {
+            if(element == undefined)
+                return " ";
+            else
+                return element.character;
+        }
+
+        Terrarium.prototype.toString = function() {
+            var characters = [];
+            var endOfLine = this.grid.width -1;
+            characters.push("\n");
+            this.grid.each(function(point, value) {
+                characters.push(characterFromElement(value));
+                if (point.x == endOfLine)
+                    characters.push("\n");
+            });
+            return characters.join("");
+        }
+
+        // ====== 分布式函数
+        function bind(func, object) {
+            return function(){
+                return func.apply(object, arguments);
+            }
+        }
+
+        function method(object, name) {
+            return function() {
+                return object[name].apply(object, arguments);
+            }
+        }
+
+        Terrarium.prototype.listActingCreatures = function() {
+            var found = [];
+            this.grid.each(function(point, value) {
+               if (value != undefined && value.act) {
+                   found.push({object:value, point:point})
+               }
+            });
+            return found;
+        };
+        Terrarium.prototype.listSurrounding = function (center) {
+            var result = {};
+            var grid = this.grid;
+            directions.each(function(name, direction) {
+                var place = center.add(direction);
+                if (grid.isInside(place))
+                    result[name] = characterFromElement(grid.valueAt(place));
+                else
+                    result[name] = "#";
+            });
+            return result;
+        }
+        Terrarium.prototype.processCreature = function(creature, point) {
+            var action = creature.act(this.listSurrounding(point));
+            if (action.type == "move" && directions.contains(action.direction)) {
+                var to = point.add(directions.lookup(action.direction))
+                if (this.grid.isInside(to) && this.grid.valueAtto == undefined)
+                    this.grid.moveValue(point, to);
+            } else {
+                throw new Error("Unsupported action :" + action.type);
+            }
+        }
+        Terrarium.prototype.step = function () {
+            forEach(this.listActingCreatures(), bind(this.processCreature, this));
+        }
+
+        var terrarium = new Terrarium(thePlan);
+        terrarium.step();
+        console.log(terrarium);
+
+    </script>
+</head>
+<body>
+<div style="height: auto;background:silver;">
+    <p style="margin-top: 2em; margin-bottom: 2em">A paragraph!</p>
+</div>
+
+<div style="height: auto; padding-top: 1px ; border-bottom: 1px solid;background: silver;">
+    <p style="margin-top: 2em;margin-bottom: 2em; margin-left: auto;margin-right: auto; width: 10em;">Another
+        paragraph!</p>
+</div>
+
+<hr>
+<p style="line-height: 2.5rem">
+    <span>This is a paragraph with a number of </span>
+    <span>lines of text which make up the</span>
+    <span>contents.</span>
+    <!--This is a paragraph with a number of-->
+    <!--lines of text which make up the-->
+    <!--contents.-->
+</p>
+
+<hr>
+
+<p style="font-size: 12px; line-height: 12px">
+    This is text , <em>some of which is emphasized</em>, plus other text<br>
+    which of is <strong style="font-size: 2.4rem; vertical-align: 4px">strongly emphasized</strong>
+    and which is <br>
+    larger than the surrounding text.
+</p>
+</body>
+</html>
