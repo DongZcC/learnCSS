@@ -485,9 +485,10 @@
                     "w" : new Point(-1,0),
                     "wn" : new Point(-1,-1)
                 });
+
         function StupidBug() {};
         StupidBug.prototype.act = function (surroundings) {
-            return {type:"move" , direction : "s"}
+            return {type:"move" , direction : "w"}
         };
         // 生态圈对象
         var wall = {};
@@ -537,7 +538,7 @@
         function bind(func, object) {
             return function(){
                 return func.apply(object, arguments);
-            }
+            };
         }
 
         function method(object, name) {
@@ -545,7 +546,7 @@
                 return object[name].apply(object, arguments);
             }
         }
-
+        //将所有的昆虫，收集到一个数组中。
         Terrarium.prototype.listActingCreatures = function() {
             var found = [];
             this.grid.each(function(point, value) {
@@ -555,6 +556,7 @@
             });
             return found;
         };
+        //当昆虫触发行动的时候，要知道周边的环境信息
         Terrarium.prototype.listSurrounding = function (center) {
             var result = {};
             var grid = this.grid;
@@ -567,11 +569,13 @@
             });
             return result;
         }
-        Terrarium.prototype.processCreature = function(creature, point) {
+        Terrarium.prototype.processCreature = function(object) {
+            var creature = object["object"];
+            var point = object["point"];
             var action = creature.act(this.listSurrounding(point));
             if (action.type == "move" && directions.contains(action.direction)) {
                 var to = point.add(directions.lookup(action.direction))
-                if (this.grid.isInside(to) && this.grid.valueAtto == undefined)
+                if (this.grid.isInside(to) && this.grid.valueAt(to) == undefined)
                     this.grid.moveValue(point, to);
             } else {
                 throw new Error("Unsupported action :" + action.type);
@@ -580,11 +584,13 @@
         Terrarium.prototype.step = function () {
             forEach(this.listActingCreatures(), bind(this.processCreature, this));
         }
-
+        Point.prototype.toString = function() {
+            return "(" + this.x + "," + this.y +")";
+        }
         var terrarium = new Terrarium(thePlan);
+        console.log(terrarium.toString());
         terrarium.step();
-        console.log(terrarium);
-
+        console.log(terrarium.toString());
     </script>
 </head>
 <body>
