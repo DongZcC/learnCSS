@@ -101,6 +101,42 @@
         }
 
 
+        function destroyer(arr) {
+            // Remove all the values
+            var destoryArr = arguments[0];
+            var outArguments = arguments;
+            return destoryArr.filter(function(item, index, array){
+                for(var i = 1; i < outArguments.length ; i++) {
+                    if (item == 2)
+                        return false;
+                }
+                return true;
+            });
+        }
+
+        //移位
+        function rot13(str) { // LBH QVQ VG!
+            var out = [];
+            for (var i =0; i < str.length ; i++) {
+                //A65 - Z90  -M77
+                var element = str.charCodeAt(i);
+                if (element >= 65 && element <= 90) {
+                    if (element <= 77)
+                        element = element + 13;
+                    else
+                        element = element - 13;
+                }
+                out.push(element);
+            }
+            var re = "";
+            for (var j = 0; j<out.length; j++)
+                re += String.fromCharCode(out[j]);
+            return re;
+        }
+
+        // Change the inputs below to test
+        rot13("SERR PBQR PNZC");
+
     </script>
 </head>
 <body>
