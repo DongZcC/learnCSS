@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        //引用类型 callee， 与函数名称解耦
+        function factorial(num){
+            if (num == 1)
+                return num;
+            else
+                return num * arguments.callee(num -1);
+        }
+        var otherFactorial = factorial;
+        factorial = function () {
+            return 0;
+        }
+
+        // 函数对象属性 caller: 这个属性中，保存着调用当前函数的函数引用
+        function outer() {
+            inner();
+        }
+        function inner() {
+            //alert(inner.caller);
+            alert(arguments.callee.caller);
+            alert(outer);
+            alert(arguments.callee)
+        }
+
+        //总结  arguemnt.callee 本函数
+        //caller  调用这个函数的函数
+
+
+        /// 5.5.5 函数的属性和方法
+        //length : 函数的参数个数
+
+        //prototype : 不可枚举。 保存他们实例方法的真正所在
+        //alert(inner.prototype);  // Object
+
+        //每个函数都包含两个非继承而来的方法： apply() 和 call() ，在特定的作用域中调用函数。实际上等于设置函数体内this对象的值
+        var o = {color: "blue"};
+        function sayColor() {
+            alert(this.color);
+        }
+        var objectSayColor = sayColor.bind(o);
+//        var obj = new Number(25);
+//        alert(typeof obj);
+//        obj.color = "red";
+//        alert(obj.color);
+//        var obj = 25;
+//        obj.color = "red";
+//        alert(obj.color);
+
+        // string replace 正则表达式：
+        function htmlEscape(text) {
+            return text.replace(/[<>"&]/g,function(match,pos, originalText){
+                switch(match){
+                    case "<":
+                        return "&lt;";
+                    case ">":
+                        return "&gt;";
+                    case "&":
+                        return "&amp;";
+                    case "\"":
+                        return "&quot;"
+                }
+            });
+        }
+        console.log(htmlEscape("<p class=\"greeting\"> hello world! </p>"))
+        //阶乘
+        function factorialize(num) {
+            if (num == 1)
+                return 1;
+            return num * arguments.callee(num-1);
+        }
+        //回文
+
+        function palindrome(str) {
+            // Good luck!
+            str = str.replace(/[^a-zA-Z]/g,"").toLowerCase();
+            console.log(str);
+            return str === reverseString(str);
+        }
+
+        //倒序一个str
+        function reverseString(str) {
+            var arr = str.split("");
+            return arr.reverse().join("");
+        }
+        //返回最大长度的str
+        function findLongestWord(str) {
+            var arr = str.split(" ");
+            if (arr.length == 1)
+                return arr[0];
+            var max = arr[0].length;
+            for (var i = 1; i < arr.length; i++) {
+                if (arr[i].length > max)
+                    max = arr[i].length;
+            }
+            return max;
+        }
+
+
+    </script>
+</head>
+<body>
+
+</body>
+</html>
